@@ -3,7 +3,8 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import axios from "axios";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-interface Product {
+export interface Product {
+  _id: string;
   name: string;
   price: number;
   qtyInStock: number;

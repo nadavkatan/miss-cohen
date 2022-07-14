@@ -1,0 +1,47 @@
+.carousel .slide {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal !important;
+  -webkit-box-direction: normal !important;
+      -ms-flex-flow: row nowrap !important;
+          flex-flow: row nowrap !important;
+  height: 43em;
+  position: relative;
+}
+
+.carousel .slide .slide-background {
+  position: absolute;
+  z-index: -1;
+  height: 100%;
+}
+
+.carousel .slide .slide-background .carousel-img {
+  height: 100%;
+  width: 50%;
+  opacity: 0.7;
+  -webkit-filter: contrast(200%);
+          filter: contrast(200%);
+}
+
+.carousel .slide .slide-content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  margin-bottom: 3em;
+}
+
+.carousel .slide .slide-content .see-products-btn {
+  background-color: black;
+}
