@@ -17,15 +17,15 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({}) => {
     }
   }, []);
 
-  useEffect(() => {
-    console.log(cartItems);
-  }, [cartItems]);
+  // useEffect(() => {
+  //   console.log(cartItems);
+  // }, [cartItems]);
   return (
     <Grid container spacing={3} style={{ padding: "2em 8em" }}>
       {products.length &&
         products.map((product, i) => {
           return (
-            <Grid item xs={3} key={product._id}>
+            <Grid item xs={12} sm={6} md={4} lg={3} key={product._id}>
               <ProductCard
                 _id={product._id}
                 name={product.name}

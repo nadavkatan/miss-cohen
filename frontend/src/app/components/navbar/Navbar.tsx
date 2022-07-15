@@ -17,6 +17,7 @@ import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import PersonIcon from "@mui/icons-material/Person";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../hooks";
+import Cart from "../cart/Cart";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -217,7 +218,7 @@ export default function Navbar() {
             <IconButton size="large" color="inherit">
               <PersonIcon />
             </IconButton>
-            <IconButton color="inherit">
+            {/* <IconButton color="inherit">
               {cartItems.length ? (
                 <Badge
                   badgeContent={cartItems.reduce(
@@ -231,7 +232,8 @@ export default function Navbar() {
               ) : (
                 <ShoppingBasketIcon />
               )}
-            </IconButton>
+            </IconButton> */}
+            <Cart />
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton

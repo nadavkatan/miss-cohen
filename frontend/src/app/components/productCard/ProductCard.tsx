@@ -8,7 +8,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { addToCart } from "../../features/cart/cartSlice";
 import { useAppSelector, useAppDispatch } from "../../hooks";
-import { CartItem } from "../../features/cart/cartSlice";
+import { CartItemModel } from "../../features/cart/cartSlice";
 import "./styles/productCard.css";
 
 interface ProductProps extends Product {}
@@ -25,7 +25,7 @@ export const ProductCard: React.FC<ProductProps> = ({
   const [isHovered, setIsHovered] = useState<Boolean>(false);
   const dispatch = useAppDispatch();
 
-  const handleAddToCart = (product: CartItem) => {
+  const handleAddToCart = (product: CartItemModel) => {
     dispatch(addToCart(product));
   };
 
