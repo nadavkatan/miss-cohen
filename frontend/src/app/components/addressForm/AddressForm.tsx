@@ -23,20 +23,26 @@ export const AddressForm: React.FC<AddressFormProps> = ({
   nextStep,
   backStep,
 }) => {
-  const [shippingOption, setShippingOption] =
-    useState<ShippingOption>("Delivery");
   const [disable, setDisable] = useState(false);
 
   const methods = useForm();
   const {
     handleSubmit,
     register,
+    watch,
+    getValues,
     formState: { errors },
   } = useForm<ShippingData>();
 
+  // const values = getValues();
+
   useEffect(() => {
-    shippingOption === "Delivery" ? setDisable(false) : setDisable(true);
-  }, [shippingOption]);
+    const subscription = watch((data) => {
+      data.shippingOption === "Delivery" ? setDisable(false) : setDisable(true);
+      // console.log(values);
+    });
+    return () => subscription.unsubscribe();
+  }, [watch]);
 
   const onSubmit = (data: ShippingData) => {
     nextStep(data);
@@ -77,12 +83,7 @@ export const AddressForm: React.FC<AddressFormProps> = ({
             <TextField
               fullWidth
               disabled={disable}
-              {...register(
-                "address",
-                shippingOption === "Delivery"
-                  ? { required: true }
-                  : { required: false }
-              )}
+              {...register("address", { required: !disable })}
               id="address1"
             />
             {errors.address && (
@@ -150,9 +151,9 @@ export const AddressForm: React.FC<AddressFormProps> = ({
           <Grid item xs={12} sm={6}>
             <InputLabel>Shipping Options</InputLabel>
             <Select
-              value={shippingOption}
+              defaultValue="Delivery"
               fullWidth
-              onChange={(e) => setShippingOption(e.target.value)}
+              {...register("shippingOption", { required: true })}
             >
               <MenuItem key="Delivery" value="Delivery">
                 Delivery - (€4.00)

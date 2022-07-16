@@ -8,20 +8,25 @@ import { ProductsPage } from "./app/pages/productsPage/ProductsPage";
 import SignInPage from "./app/pages/signInPage/SignInPage";
 import { CheckoutPage } from "./app/pages/checkoutPage/CheckoutPage";
 import RegisterPage from "./app/pages/registerPage/RegisterPage";
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 function App() {
   return (
     <Provider store={store}>
-      <div className="App">
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/products" element={<ProductsPage />} />
-          <Route path="/signin" element={<SignInPage />} />
-          <Route path="/checkout" element={<CheckoutPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-        </Routes>
-      </div>
+      <PayPalScriptProvider
+        options={{ "client-id": process.env.REACT_APP_PAYPAL_CLIENT_ID }}
+      >
+        <div className="App">
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/products" element={<ProductsPage />} />
+            <Route path="/signin" element={<SignInPage />} />
+            <Route path="/checkout" element={<CheckoutPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+          </Routes>
+        </div>
+      </PayPalScriptProvider>
     </Provider>
   );
 }
