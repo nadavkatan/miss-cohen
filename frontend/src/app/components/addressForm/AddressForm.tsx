@@ -1,7 +1,183 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import InputLabel from "@mui/material/InputLabel";
+import TextField from "@mui/material/TextField";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import Button from "@mui/material/Button";
+import { Link } from "react-router-dom";
+import { useForm, FormProvider, Resolver } from "react-hook-form";
+import Typography from "@mui/material/Typography";
+import {
+  ShippingData,
+  ShippingOption,
+} from "../../pages/checkoutPage/CheckoutPage";
 
-interface AddressFormProps {}
+interface AddressFormProps {
+  nextStep: (data: ShippingData) => void;
+  backStep: () => void;
+}
 
-export const AddressForm: React.FC<AddressFormProps> = ({}) => {
-  return <div></div>;
+export const AddressForm: React.FC<AddressFormProps> = ({
+  nextStep,
+  backStep,
+}) => {
+  const [shippingOption, setShippingOption] =
+    useState<ShippingOption>("Delivery");
+  const [disable, setDisable] = useState(false);
+
+  const methods = useForm();
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<ShippingData>();
+
+  useEffect(() => {
+    shippingOption === "Delivery" ? setDisable(false) : setDisable(true);
+  }, [shippingOption]);
+
+  const onSubmit = (data: ShippingData) => {
+    nextStep(data);
+  };
+
+  return (
+    <FormProvider {...methods}>
+      <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={6}>
+            <InputLabel>First name</InputLabel>
+            <TextField
+              fullWidth
+              id="firstName"
+              {...register("firstName", { required: true })}
+            />
+            {errors.firstName && (
+              <Typography variant="subtitle2" color="error">
+                This field is required
+              </Typography>
+            )}
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <InputLabel>Last Name</InputLabel>
+            <TextField
+              fullWidth
+              id="lastName"
+              {...register("lastName", { required: true })}
+            />
+            {errors.lastName && (
+              <Typography variant="subtitle2" color="error">
+                This field is required
+              </Typography>
+            )}
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <InputLabel>Address</InputLabel>
+            <TextField
+              fullWidth
+              disabled={disable}
+              {...register(
+                "address",
+                shippingOption === "Delivery"
+                  ? { required: true }
+                  : { required: false }
+              )}
+              id="address1"
+            />
+            {errors.address && (
+              <Typography variant="subtitle2" color="error">
+                This field is required
+              </Typography>
+            )}
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <InputLabel>Email</InputLabel>
+            <TextField
+              fullWidth
+              {...register("email", {
+                required: "Please fill in your email",
+                pattern: {
+                  value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+                  message: "Please enter a valid email address",
+                },
+              })}
+            />
+            {errors.email && (
+              <Typography variant="subtitle2" color="error">
+                {errors.email.message}
+              </Typography>
+            )}
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <InputLabel>City</InputLabel>
+            <TextField
+              fullWidth
+              {...register("city", { required: !disable })}
+              disabled={disable}
+            />
+            {errors.city && (
+              <Typography variant="subtitle2" color="error">
+                This field is required
+              </Typography>
+            )}
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <InputLabel>ZIP / Postal Code</InputLabel>
+            <TextField
+              fullWidth
+              disabled={disable}
+              {...register("zipCode", { required: !disable })}
+            />
+            {errors.zipCode && (
+              <Typography variant="subtitle2" color="error">
+                This field is required
+              </Typography>
+            )}
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <InputLabel>Phone number</InputLabel>
+            <TextField
+              fullWidth
+              {...register("phoneNumber", { required: true })}
+            />
+            {errors.phoneNumber && (
+              <Typography variant="subtitle2" color="error">
+                This field is required
+              </Typography>
+            )}
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <InputLabel>Shipping Options</InputLabel>
+            <Select
+              value={shippingOption}
+              fullWidth
+              onChange={(e) => setShippingOption(e.target.value)}
+            >
+              <MenuItem key="Delivery" value="Delivery">
+                Delivery - (€4.00)
+              </MenuItem>
+              <MenuItem key="Pickup" value="Pickup">
+                Pickup - (€0.00)
+              </MenuItem>
+            </Select>
+          </Grid>
+        </Grid>
+        <br></br>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <Button
+            component={Link}
+            to="/products"
+            variant="outlined"
+            onClick={() => backStep()}
+          >
+            Back to Cart
+          </Button>
+          <Button type="submit" variant="contained" color="primary">
+            Next
+          </Button>
+        </div>
+      </Box>
+    </FormProvider>
+  );
 };

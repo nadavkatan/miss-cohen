@@ -1,28 +1,73 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Stepper from "@mui/material/Stepper";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
-import { Step, StepLabel } from "@mui/material";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
+import { AddressForm } from "../../components/addressForm/AddressForm";
+import "./styles/checkoutPage.css";
 
 interface CheckoutPageProps {}
 
+export type ShippingOption = "Delivery" | "Pickup" | string;
+
+export interface ShippingData {
+  firstName: string;
+  lastName: string;
+  address: string;
+  email: string;
+  city: string;
+  zipCode: string;
+  phoneNumber: string;
+  shippingOption: ShippingOption;
+}
+
 export const CheckoutPage: React.FC<CheckoutPageProps> = ({}) => {
   const [activeStep, setActiveStep] = useState(0);
-  const steps: string[] = ["Shipping Address", "Payment Details"];
+  const [shippingData, setShippingData] = useState<ShippingData>({
+    firstName: "",
+    lastName: "",
+    address: "",
+    email: "",
+    city: "",
+    zipCode: "",
+    phoneNumber: "",
+    shippingOption: "Delivery",
+  });
+  const steps: string[] = [
+    "Shipping Address",
+    "Payment Details",
+    "Confirmation",
+  ];
+
+  const nextStep = (data: ShippingData) => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setShippingData(data);
+  };
+  const backStep = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  useEffect(() => {
+    console.log(shippingData);
+  }, [shippingData]);
 
   return (
-    <main>
-      <Paper>
+    <main className="checkout-wrapper">
+      <Paper elevation={3} className="checkout-container">
         <Typography variant="h4" align="center">
           Checkout
         </Typography>
-        <Stepper activeStep={activeStep}>
+        <Stepper activeStep={activeStep} className="checkout-stepper">
           {steps.map((step) => (
             <Step key={step}>
               <StepLabel>{step}</StepLabel>
             </Step>
           ))}
         </Stepper>
+        {activeStep === 0 && (
+          <AddressForm nextStep={nextStep} backStep={backStep} />
+        )}
       </Paper>
     </main>
   );

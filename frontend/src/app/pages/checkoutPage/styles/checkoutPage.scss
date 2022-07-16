@@ -1,0 +1,13 @@
+.checkout-wrapper{
+    width: 100vw;
+    display:flex;
+    justify-content: center;
+    margin-top:2em;
+    .checkout-container{
+        width: 80%;
+        padding:2em;
+        .checkout-stepper{
+            margin: 1em 0 2em 0;
+        }
+    }
+}
