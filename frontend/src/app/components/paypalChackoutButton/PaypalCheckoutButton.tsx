@@ -1,29 +1,67 @@
 import React, { useEffect, useState } from "react";
 import { PayPalButtons } from "@paypal/react-paypal-js";
-import { useAppSelector } from "../../hooks";
-import { ShippingOption } from "../../pages/checkoutPage/CheckoutPage";
+import { useAppSelector, useAppDispatch } from "../../hooks";
+import {
+  Order,
+  placeOrder,
+  sendConfirmation,
+} from "../../features/order/orderSlice";
+import { emptyCart } from "../../features/cart/cartSlice";
 
 interface PaypalCheckoutButtonProps {
-  shippingOption: ShippingOption;
-  next: () => void;
+  nextStep: () => void;
 }
 
 export const PaypalCheckoutButton: React.FC<PaypalCheckoutButtonProps> = ({
-  shippingOption,
-  next,
+  nextStep,
 }) => {
-  const { totalPrice } = useAppSelector((state) => state.cart);
-  const [error, setError] = useState<any>(null);
-  const [paid, setPaid] = useState(false);
+  const { totalPrice, cartItems } = useAppSelector((state) => state.cart);
+  const { shippingData, orderNumber } = useAppSelector((state) => state.order);
 
-  //   useEffect(() => {
-  //     if(paid)
-  //   })
+  const dispatch = useAppDispatch();
+
+  const storeOrder = () => {
+    // const cartItemsIds = cartItems.map((cartItem) => cartItem._id);
+    const order: Order = {
+      customer_name: `${shippingData.firstName} ${shippingData.lastName}`,
+      customer_address: shippingData.address,
+      customer_email: shippingData.email,
+      items: cartItems.map((cartItem) => cartItem._id),
+      date: new Date(),
+      total_price: totalPrice,
+      status: "Paid",
+    };
+
+    dispatch(placeOrder(order));
+  };
+
+  useEffect(() => {
+    console.log(shippingData);
+  }, [shippingData]);
 
   const handleApprove = () => {
-    //Store order in mongo and send email to client and seller
-    next();
+    //Store order in mongo
+    storeOrder();
   };
+
+  useEffect(() => {
+    console.log("order number: " + orderNumber);
+    if (orderNumber) {
+      dispatch(
+        sendConfirmation({
+          customerFullName: `${shippingData.firstName} ${shippingData.lastName}`,
+          customerEmail: shippingData.email,
+          orderNumber: orderNumber,
+          items: cartItems.map((cartItem) => cartItem.name),
+          totalPrice: totalPrice,
+          shippingMethod: shippingData.shippingOption,
+        })
+      );
+      dispatch(emptyCart());
+      //Move to confirmation
+      nextStep();
+    }
+  }, [orderNumber]);
 
   return (
     <PayPalButtons
@@ -39,7 +77,7 @@ export const PaypalCheckoutButton: React.FC<PaypalCheckoutButtonProps> = ({
               description: "Your order at Miss. Cohen",
               amount: {
                 value:
-                  shippingOption === "Delivery"
+                  shippingData.shippingOption === "Delivery"
                     ? (totalPrice + 4).toString()
                     : totalPrice.toString(),
               },
@@ -53,7 +91,6 @@ export const PaypalCheckoutButton: React.FC<PaypalCheckoutButtonProps> = ({
         handleApprove();
       }}
       onError={(err) => {
-        setError(err);
         console.error("PayPal checkout on error" + err);
       }}
       onCancel={() => {

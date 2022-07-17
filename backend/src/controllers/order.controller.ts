@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import Order from '../models/order.model';
 
 const createOrder = (req: Request, res: Response, next: NextFunction) => {
+  console.log(req.body)
   const { customer_name, customer_address, customer_email, items, date, total_price, status } = req.body;
 
   const order = new Order({
@@ -12,7 +13,7 @@ const createOrder = (req: Request, res: Response, next: NextFunction) => {
 
   return order
     .save()
-    .then((order) => res.status(201).json({ order }))
+    .then((order) => res.status(201).json( order ))
     .catch((err) => res.status(500).json({ err }));
 };
 const readOrder = (req: Request, res: Response, next: NextFunction) => {

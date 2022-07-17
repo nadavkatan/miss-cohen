@@ -9,13 +9,11 @@ import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import { useForm, FormProvider, Resolver } from "react-hook-form";
 import Typography from "@mui/material/Typography";
-import {
-  ShippingData,
-  ShippingOption,
-} from "../../pages/checkoutPage/CheckoutPage";
+import { ShippingData, setShippingData } from "../../features/order/orderSlice";
+import { useAppDispatch } from "../../hooks";
 
 interface AddressFormProps {
-  nextStep: (data: ShippingData) => void;
+  nextStep: () => void;
   backStep: () => void;
 }
 
@@ -24,6 +22,7 @@ export const AddressForm: React.FC<AddressFormProps> = ({
   backStep,
 }) => {
   const [disable, setDisable] = useState(false);
+  const dispatch = useAppDispatch();
 
   const methods = useForm();
   const {
@@ -45,7 +44,8 @@ export const AddressForm: React.FC<AddressFormProps> = ({
   }, [watch]);
 
   const onSubmit = (data: ShippingData) => {
-    nextStep(data);
+    dispatch(setShippingData(data));
+    nextStep();
   };
 
   return (

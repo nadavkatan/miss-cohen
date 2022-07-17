@@ -1,0 +1,19 @@
+.confirmation-wrapper .confirmation-text-container {
+  margin: 2em 0;
+}
+
+.confirmation-wrapper .confirmation-logo-container {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.confirmation-wrapper .confirmation-logo-container .confirmation-logo {
+  width: 15em;
+  height: auto;
+  margin-bottom: 2em;
+}

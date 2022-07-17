@@ -8,7 +8,8 @@ import { useAppSelector } from "../../hooks";
 interface ReviewProps {}
 
 export const Review: React.FC<ReviewProps> = ({}) => {
-  const { cartItems, totalPrice } = useAppSelector((state) => state.cart);
+  const { cartItems, totalPrice, vat } = useAppSelector((state) => state.cart);
+  const { shippingData } = useAppSelector((state) => state.order);
 
   return (
     <>
@@ -22,23 +23,29 @@ export const Review: React.FC<ReviewProps> = ({}) => {
               primary={item.name}
               secondary={`Quantity: ${item.qty}`}
             />
-            <Typography variant="body2">{`€${
+            <Typography variant="body2" style={{ fontWeight: 700 }}>{`€${
               item.price * item.qty
             }`}</Typography>
           </ListItem>
         ))}
         <ListItem style={{ padding: "10px 0" }}>
+          <ListItemText primary="VAT" secondary={"21%"} />
+          <Typography variant="subtitle1" style={{ fontWeight: 700 }}>
+            €{vat}
+          </Typography>
+        </ListItem>
+        <ListItem style={{ padding: "10px 0" }}>
           <ListItemText primary="Shipping" secondary={"Nadav-insert-method"} />
           <Typography variant="subtitle1" style={{ fontWeight: 700 }}>
-            {/* {orderData.shippingOption === "Delivery"? "$4.00" : "$0.00" }</Typography> */}
-            conditional rendering for shipping price
+            {shippingData.shippingOption === "Delivery" ? "€4.00" : "€0.00"}
           </Typography>
         </ListItem>
         <ListItem style={{ padding: "10px 0" }}>
           <ListItemText primary="Total" />
           <Typography variant="subtitle1" style={{ fontWeight: 700 }}>
-            {/* {orderData.shippingOption === "Delivery"? `$${checkoutToken.live.subtotal.raw + 4}.00`:checkoutToken.live.subtotal.formatted_with_symbol}</Typography> */}
-            €{totalPrice}
+            {shippingData.shippingOption === "Delivery"
+              ? `€${totalPrice + 4}`
+              : `€${totalPrice}`}
           </Typography>
         </ListItem>
       </List>

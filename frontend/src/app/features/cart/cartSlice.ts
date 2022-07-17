@@ -1,12 +1,15 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { Product } from "../products/productsSlice";
 import { current } from '@reduxjs/toolkit'
+import axios from "axios";
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 
 export interface CartItemModel extends Product {
     qty:number
 }
+
 
 type CartState ={
     cartItems: CartItemModel[],
@@ -21,6 +24,7 @@ const initialState = {
     vat:0,
     totalPrice: 0,
   } as CartState;
+
 
   const cartSlice = createSlice({
     name: "cart",
@@ -58,9 +62,15 @@ const initialState = {
             state.subtotal -= action.payload.price;
             state.vat = Number((state.subtotal * 0.21).toFixed(2));
             state.totalPrice = Number((state.subtotal + state.vat).toFixed(2));
+        },
+        emptyCart: (state) => {
+            state.cartItems = [];
+            state.subtotal = 0;
+            state.vat = 0;
+            state.totalPrice = 0;
         }
     }
   });
 
   export default cartSlice.reducer;
-  export const {addToCart, removeFromCart} = cartSlice.actions;
+  export const {addToCart, removeFromCart, emptyCart} = cartSlice.actions;

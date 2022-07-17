@@ -4,6 +4,8 @@ import mongoose from 'mongoose';
 import {config} from './config/config';
 import productRoute from './routes/product.route';
 import orderRoute from './routes/order.route';
+import confirmationRouter from './routes/confirmation.route';
+import authRouter from './routes/auth.route';
 import Product from './models/product.model';
 
 const app = express();
@@ -45,6 +47,8 @@ const startServer = () =>{
    /** Routes */
    app.use('/products', productRoute);
    app.use('/orders', orderRoute);
+   app.use('/confirmation', confirmationRouter);
+   app.use('/auth', authRouter);
 
            /** Healthcheck */
            app.get('/ping', (req, res, next) => res.status(200).json({message:'pong'}));

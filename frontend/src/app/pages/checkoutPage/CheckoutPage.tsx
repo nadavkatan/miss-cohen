@@ -7,48 +7,37 @@ import StepLabel from "@mui/material/StepLabel";
 import { AddressForm } from "../../components/addressForm/AddressForm";
 import { PaymentForm } from "../../components/paymentForm/PaymentForm";
 import { Confirmation } from "../../components/confirmation/Confirmation";
+import { ShippingData, setShippingData } from "../../features/order/orderSlice";
+import { useAppSelector } from "../../hooks";
 import "./styles/checkoutPage.css";
 
 interface CheckoutPageProps {}
 
-export type ShippingOption = "Delivery" | "Pickup" | string;
+// export type ShippingOption = "Delivery" | "Pickup" | string;
 
-export interface ShippingData {
-  firstName: string;
-  lastName: string;
-  address: string;
-  email: string;
-  city: string;
-  zipCode: string;
-  phoneNumber: string;
-  shippingOption: ShippingOption;
-}
+// export interface ShippingData {
+//   firstName: string;
+//   lastName: string;
+//   address: string;
+//   email: string;
+//   city: string;
+//   zipCode: string;
+//   phoneNumber: string;
+//   shippingOption: ShippingOption;
+// }
 
 export const CheckoutPage: React.FC<CheckoutPageProps> = ({}) => {
+  const { shippingData } = useAppSelector((state) => state.order);
   const [activeStep, setActiveStep] = useState(0);
-  const [shippingData, setShippingData] = useState<ShippingData>({
-    firstName: "",
-    lastName: "",
-    address: "",
-    email: "",
-    city: "",
-    zipCode: "",
-    phoneNumber: "",
-    shippingOption: "Delivery",
-  });
+
   const steps: string[] = [
     "Shipping Address",
     "Payment Details",
     "Confirmation",
   ];
 
-  const next = () => {
+  const nextStep = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const nextStep = (data: ShippingData) => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setShippingData(data);
   };
   const backStep = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
@@ -74,19 +63,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({}) => {
         {activeStep === 0 ? (
           <AddressForm nextStep={nextStep} backStep={backStep} />
         ) : activeStep === 1 ? (
-          <PaymentForm
-            firstName={shippingData.firstName}
-            lastName={shippingData.lastName}
-            address={shippingData.address}
-            email={shippingData.email}
-            city={shippingData.city}
-            zipCode={shippingData.zipCode}
-            phoneNumber={shippingData.phoneNumber}
-            shippingOption={shippingData.shippingOption}
-            backStep={backStep}
-            nextStep={nextStep}
-            next={next}
-          />
+          <PaymentForm backStep={backStep} nextStep={nextStep} />
         ) : (
           <Confirmation />
         )}
