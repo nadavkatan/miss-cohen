@@ -9,16 +9,18 @@ router.post("/register", async(req,res)=>{
     User.findOne({username: req.body.username}, async (err:any, user:IUserModel)=>{
        if(err) throw err;
        if(user) {
-           res.json({message: "Username is already taken"});
+           res.json({message: "Username is already taken", user: undefined});
        }
        if(!user){
            const createdUser = await createUser(req.body);
-           res.status(201).json({message: "Created", user: createdUser});
+           res.status(201).json({message: null, user: createdUser});
+        //    res.status(201).json(createdUser);
        }
    })
 });
 
 router.post('/login', (req, res, next) => {
+    console.log(req.body)
     passport.authenticate('local', (e:any, user:IUserModel, info:any) => {
         if(e) return next(e);
         if(info) return res.json({info, isAuth: false});
@@ -32,6 +34,7 @@ router.post('/login', (req, res, next) => {
 
 router.post('/logout', async(req, res, next)=>{
      req.logout((err)=> console.log(err))
+     res.status(200).json({message: 'Logged out', isAuth: false})
    });
 
 
@@ -39,7 +42,7 @@ router.post('/logout', async(req, res, next)=>{
     if(req.isAuthenticated()){
         res.json({isAuth: true, user: req.user})
     }else{
-        res.json({isAuth: false})
+        res.json({isAuth: false, user: undefined})
     }
 });
 

@@ -2,11 +2,17 @@ import express from 'express';
 import http from 'http';
 import mongoose from 'mongoose';
 import {config} from './config/config';
-import productRoute from './routes/product.route';
-import orderRoute from './routes/order.route';
+import productRouter from './routes/product.route';
+import orderRouter from './routes/order.route';
 import confirmationRouter from './routes/confirmation.route';
 import authRouter from './routes/auth.route';
+import userRouter from './routes/user.route';
 import Product from './models/product.model';
+// const MongoStore = require('connect-mongo');
+import MongoStore from 'connect-mongo';
+const cors = require('cors');
+import passport from 'passport';
+const session = require('express-session');
 
 const app = express();
 
@@ -14,6 +20,7 @@ const app = express();
 mongoose.connect(config.mongo.url, {retryWrites: true, w: "majority"})
 .then(()=>{
     console.log('Connected to mongoDB');
+    
     startServer()
 })
 .catch(err => console.log(err));
@@ -28,12 +35,36 @@ const startServer = () =>{
         next();
     });
 
+    const sessionStore = MongoStore.create({
+        client: mongoose.connection.getClient(),
+        mongoUrl: process.env.MONGOOSE_URI,
+        collectionName: "sessions"
+    })
+
+    /** Middlewares */
     app.use(express.urlencoded({ extended:true}));
     app.use(express.json());
+    app.use(cors({
+        credentials: true,
+        origin: 'http://localhost:3000'
+    }));
+    app.use(session({
+        secret: process.env.SESSION_SECRET,
+        resave: false,
+        saveUninitialized: false,
+        store: sessionStore,
+        cookie:{
+            maxAge: 1000 * 60 * 60,
+        }
+    }));
+
+    require('./config/auth.config');
+    app.use(passport.initialize());
+    app.use(passport.session());
 
             /** Rules of our API */
             app.use((req, res, next) => {
-                res.header('Access-Control-Allow-Origin', '*');
+                res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
                 res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
         
                 if (req.method == 'OPTIONS') {
@@ -45,10 +76,11 @@ const startServer = () =>{
             });
 
    /** Routes */
-   app.use('/products', productRoute);
-   app.use('/orders', orderRoute);
+   app.use('/products', productRouter);
+   app.use('/orders', orderRouter);
    app.use('/confirmation', confirmationRouter);
    app.use('/auth', authRouter);
+   app.use('/user', userRouter);
 
            /** Healthcheck */
            app.get('/ping', (req, res, next) => res.status(200).json({message:'pong'}));

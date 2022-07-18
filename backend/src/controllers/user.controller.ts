@@ -35,20 +35,28 @@ const readAll = (req: Request, res: Response, next: NextFunction) => {
       : res.status(500).json({ message: 'not found' })
   );
 };
-const updateUser = (req: Request, res: Response, next: NextFunction) => {
+const updateUser = async(req: Request, res: Response, next: NextFunction) => {
   const userId = req.params.userId;
+  try{
+    const updatedUser = await User.findByIdAndUpdate({_id: userId}, {$push: {orders: req.body.orderNumber}}, {new:true});
+    res.status(200).json(updatedUser);
+  }catch(err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
 
-  return User.findById(userId).then((user) => {
-    if (user) {
-      user.set(req.body);
-      return user
-        .save()
-        .then((user) => res.status(201).json({ user }))
-        .catch((err) => res.status(500).json({ err }));
-    } else {
-      res.status(404).json({ message: 'User not found' });
-    }
-  });
+
+  // return User.findById(userId).then((user) => {
+  //   if (user) {
+  //     user.set(req.body);
+  //     return user
+  //       .save()
+  //       .then((user) => res.status(200).json({ user }))
+  //       .catch((err) => res.status(500).json({ err }));
+  //   } else {
+  //     res.status(404).json({ message: 'User not found' });
+  //   }
+  // });
 };
 const deleteUser = (req: Request, res: Response, next: NextFunction) => {
   const userId = req.params.userId;

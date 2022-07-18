@@ -30,10 +30,6 @@ export default function Cart() {
   );
   const navigate = useNavigate();
 
-  React.useEffect(() => {
-    console.log("cart", cartItems);
-  }, [cartItems]);
-
   const toggleDrawer =
     (anchor: Anchor, open: boolean) =>
     (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -51,7 +47,7 @@ export default function Cart() {
   const handleCheckout = () => {
     setState({ right: false });
     // toggleDrawer("right", false);
-    navigate("/signin");
+    navigate("/checkout-signin");
   };
 
   const list = (anchor: Anchor) => (
@@ -144,7 +140,11 @@ export default function Cart() {
     <div>
       {(["right"] as const).map((anchor) => (
         <React.Fragment key={anchor}>
-          <IconButton color="inherit" onClick={toggleDrawer(anchor, true)}>
+          <IconButton
+            color="inherit"
+            size="large"
+            onClick={toggleDrawer(anchor, true)}
+          >
             {cartItems.length ? (
               <Badge
                 badgeContent={cartItems.reduce(

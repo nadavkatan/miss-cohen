@@ -18,6 +18,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../hooks";
 import Cart from "../cart/Cart";
+import { checkAuth, logout } from "../../features/auth/authSlice";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -67,6 +68,9 @@ export default function Navbar() {
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const { cartItems } = useAppSelector((state) => state.cart);
+  const { currentUser, isAuth } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -85,10 +89,34 @@ export default function Navbar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const navigate = useNavigate();
+  const goToMyOrders = () => {
+    handleMenuClose();
+    navigate(`orders/${currentUser?._id}`);
+  };
+
+  const handleLogout = () => {
+    handleMenuClose();
+    dispatch(logout());
+  };
+  const handleLogin = () => {
+    handleMenuClose();
+    navigate("/signin");
+  };
+
+  React.useEffect(() => {
+    dispatch(checkAuth());
+  }, []);
+
+  React.useEffect(() => {
+    console.log(currentUser);
+  }, [currentUser]);
+
+  React.useEffect(() => {
+    console.log("isAuth: " + isAuth);
+  }, [isAuth]);
 
   const menuId = "primary-search-account-menu";
-  const renderMenu = (
+  const renderMenu = isAuth ? (
     <Menu
       anchorEl={anchorEl}
       anchorOrigin={{
@@ -104,8 +132,26 @@ export default function Navbar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={goToMyOrders}>My orders</MenuItem>
+      <MenuItem onClick={handleLogout}>Logout</MenuItem>
+    </Menu>
+  ) : (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem onClick={handleLogin}>Login</MenuItem>
     </Menu>
   );
 
@@ -181,23 +227,6 @@ export default function Navbar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" color="transparent">
         <Toolbar>
-          {/* <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton> */}
-          {/* <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ display: { xs: 'none', sm: 'block' } }}
-          >
-            MUI
-          </Typography> */}
           <img
             src={logo}
             alt="logo"
@@ -214,25 +243,21 @@ export default function Navbar() {
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <IconButton size="large" color="inherit">
+          <Box
+            sx={{ display: { xs: "none", md: "flex", alignItems: "center" } }}
+          >
+            {currentUser && (
+              <Typography variant="subtitle1" color="primary">
+                {currentUser.firstName}
+              </Typography>
+            )}
+            <IconButton
+              size="large"
+              color="inherit"
+              onClick={handleProfileMenuOpen}
+            >
               <PersonIcon />
             </IconButton>
-            {/* <IconButton color="inherit">
-              {cartItems.length ? (
-                <Badge
-                  badgeContent={cartItems.reduce(
-                    (total, items) => total + items.qty,
-                    0
-                  )}
-                  color="error"
-                >
-                  <ShoppingBasketIcon />
-                </Badge>
-              ) : (
-                <ShoppingBasketIcon />
-              )}
-            </IconButton> */}
             <Cart />
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>

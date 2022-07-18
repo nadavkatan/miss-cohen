@@ -7,6 +7,7 @@ import {
   sendConfirmation,
 } from "../../features/order/orderSlice";
 import { emptyCart } from "../../features/cart/cartSlice";
+import { updateUsersOrders } from "../../features/auth/authSlice";
 
 interface PaypalCheckoutButtonProps {
   nextStep: () => void;
@@ -17,6 +18,7 @@ export const PaypalCheckoutButton: React.FC<PaypalCheckoutButtonProps> = ({
 }) => {
   const { totalPrice, cartItems } = useAppSelector((state) => state.cart);
   const { shippingData, orderNumber } = useAppSelector((state) => state.order);
+  const { currentUser } = useAppSelector((state) => state.auth);
 
   const dispatch = useAppDispatch();
 
@@ -57,6 +59,14 @@ export const PaypalCheckoutButton: React.FC<PaypalCheckoutButtonProps> = ({
           shippingMethod: shippingData.shippingOption,
         })
       );
+      if (currentUser) {
+        dispatch(
+          updateUsersOrders({
+            userId: currentUser._id,
+            orderNumber: orderNumber,
+          })
+        );
+      }
       dispatch(emptyCart());
       //Move to confirmation
       nextStep();

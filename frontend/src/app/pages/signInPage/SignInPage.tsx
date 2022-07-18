@@ -12,18 +12,40 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useForm } from "react-hook-form";
+import { Credentials, login } from "../../features/auth/authSlice";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const theme = createTheme();
 
 export default function SignInSide() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+  const { currentUser } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const methods = useForm();
+  const {
+    handleSubmit,
+    register,
+    watch,
+    getValues,
+    formState: { errors },
+  } = useForm<Credentials>();
+
+  const onSubmit = (data: Credentials) => {
+    console.log(data);
+    dispatch(login(data));
   };
+
+  React.useEffect(() => {
+    if (currentUser) {
+      location.pathname === "/checkout-signin"
+        ? navigate("/checkout")
+        : navigate(-1);
+    }
+  }, [currentUser]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -64,28 +86,26 @@ export default function SignInSide() {
             <Box
               component="form"
               noValidate
-              onSubmit={handleSubmit}
+              onSubmit={handleSubmit(onSubmit)}
               sx={{ mt: 1 }}
             >
               <TextField
                 margin="normal"
-                required
                 fullWidth
                 id="email"
                 label="Email Address"
-                name="email"
                 autoComplete="email"
                 autoFocus
+                {...register("username", { required: true })}
               />
               <TextField
                 margin="normal"
-                required
                 fullWidth
-                name="password"
                 label="Password"
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                {...register("password", { required: true })}
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}

@@ -12,18 +12,36 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { registerUser, FormData } from "../../features/auth/authSlice";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
 
 export default function RegisterPage() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+  const { currentUser } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const methods = useForm();
+  const {
+    handleSubmit,
+    register,
+    watch,
+    getValues,
+    formState: { errors },
+  } = useForm<FormData>();
+
+  const onSubmit = (data: FormData) => {
+    dispatch(registerUser(data));
   };
+
+  React.useEffect(() => {
+    if (currentUser) {
+      navigate("/checkout");
+    }
+  }, [currentUser]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -46,50 +64,46 @@ export default function RegisterPage() {
           <Box
             component="form"
             noValidate
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmit(onSubmit)}
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete="given-name"
-                  name="firstName"
-                  required
                   fullWidth
                   id="firstName"
                   label="First Name"
                   autoFocus
+                  {...register("firstName", { required: true })}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  required
                   fullWidth
                   id="lastName"
                   label="Last Name"
-                  name="lastName"
                   autoComplete="family-name"
+                  {...register("lastName", { required: true })}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  required
                   fullWidth
                   id="email"
                   label="Email Address"
-                  name="email"
                   autoComplete="email"
+                  {...register("username", { required: true })}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  required
                   fullWidth
-                  name="password"
                   label="Password"
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  {...register("password", { required: true })}
                 />
               </Grid>
               <Grid item xs={12}>

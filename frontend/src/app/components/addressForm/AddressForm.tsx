@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import { useForm, FormProvider, Resolver } from "react-hook-form";
 import Typography from "@mui/material/Typography";
 import { ShippingData, setShippingData } from "../../features/order/orderSlice";
-import { useAppDispatch } from "../../hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 
 interface AddressFormProps {
   nextStep: () => void;
@@ -21,6 +21,7 @@ export const AddressForm: React.FC<AddressFormProps> = ({
   nextStep,
   backStep,
 }) => {
+  const { currentUser } = useAppSelector((state) => state.auth);
   const [disable, setDisable] = useState(false);
   const dispatch = useAppDispatch();
 
@@ -31,7 +32,12 @@ export const AddressForm: React.FC<AddressFormProps> = ({
     watch,
     getValues,
     formState: { errors },
-  } = useForm<ShippingData>();
+  } = useForm<ShippingData>({
+    defaultValues: {
+      firstName: currentUser ? currentUser.firstName : "",
+      lastName: currentUser ? currentUser.lastName : "",
+    },
+  });
 
   // const values = getValues();
 
@@ -57,6 +63,7 @@ export const AddressForm: React.FC<AddressFormProps> = ({
             <TextField
               fullWidth
               id="firstName"
+              defaultValue={currentUser ? currentUser.firstName : ""}
               {...register("firstName", { required: true })}
             />
             {errors.firstName && (
@@ -69,6 +76,7 @@ export const AddressForm: React.FC<AddressFormProps> = ({
             <InputLabel>Last Name</InputLabel>
             <TextField
               fullWidth
+              defaultValue={currentUser ? currentUser.lastName : ""}
               id="lastName"
               {...register("lastName", { required: true })}
             />
@@ -96,6 +104,7 @@ export const AddressForm: React.FC<AddressFormProps> = ({
             <InputLabel>Email</InputLabel>
             <TextField
               fullWidth
+              defaultValue={currentUser ? currentUser.email : ""}
               {...register("email", {
                 required: "Please fill in your email",
                 pattern: {
