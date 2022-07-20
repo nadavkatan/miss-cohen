@@ -1,0 +1,23 @@
+.about-section-wrapper{
+    // display: flex;
+    // justify-content: space-around;
+    padding: 4em 0 3em 2em; 
+
+    .about-section-content{
+        .about-section-title{
+            margin-bottom: 0.3em;
+        }
+        .about-section-text{
+            // font-size: 1.5em;
+            line-height: 2;
+        }
+    }
+    .about-section-logo-container{
+        display: flex;
+        justify-content:center;
+        .about-section-logo{
+            width:30em
+        }
+    }
+
+}

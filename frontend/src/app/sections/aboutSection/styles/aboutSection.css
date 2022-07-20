@@ -1,0 +1,24 @@
+.about-section-wrapper {
+  padding: 4em 0 3em 2em;
+}
+
+.about-section-wrapper .about-section-content .about-section-title {
+  margin-bottom: 0.3em;
+}
+
+.about-section-wrapper .about-section-content .about-section-text {
+  line-height: 2;
+}
+
+.about-section-wrapper .about-section-logo-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.about-section-wrapper .about-section-logo-container .about-section-logo {
+  width: 30em;
+}

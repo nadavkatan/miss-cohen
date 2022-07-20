@@ -202,7 +202,17 @@ export default function Navbar() {
   );
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box
+      sx={{
+        flexGrow: 1,
+        position: "fixed",
+        top: 0,
+        width: "100%",
+        // backgroundColor: "#FFF9CA",
+        backgroundColor: "white",
+        zIndex: 20,
+      }}
+    >
       <AppBar position="static" color="transparent">
         <Toolbar>
           <img

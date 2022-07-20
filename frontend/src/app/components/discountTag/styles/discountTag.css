@@ -1,0 +1,7 @@
+.discount-tag {
+  background-color: #003865;
+  width: 3em;
+  border-radius: 0 10px 10px 0;
+  position: absolute;
+  top: 10px;
+}

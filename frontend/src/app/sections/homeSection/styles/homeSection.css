@@ -1,6 +1,7 @@
 .home-section-wrapper {
   position: relative;
   height: 90vh;
+  margin-top: 10.5vh;
 }
 
 .home-section-wrapper .home-section-carousel-container {

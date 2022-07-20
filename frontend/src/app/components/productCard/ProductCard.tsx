@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Product } from "../../features/products/productsSlice";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -7,11 +7,13 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { addToCart } from "../../features/cart/cartSlice";
-import { useAppSelector, useAppDispatch } from "../../hooks";
+import { useAppSelector, useAppDispatch, useInView } from "../../hooks";
 import { CartItemModel } from "../../features/cart/cartSlice";
 import "./styles/productCard.css";
 import { Box, IconButton } from "@mui/material";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import { DiscountTag } from "../discountTag/DiscountTag";
+import { useLocation } from "react-router-dom";
 
 interface ProductProps extends Product {}
 
@@ -26,13 +28,29 @@ export const ProductCard: React.FC<ProductProps> = ({
 }) => {
   const [isHovered, setIsHovered] = useState<Boolean>(false);
   const dispatch = useAppDispatch();
+  const cardEl = useRef(null);
+  const isInView = useInView(cardEl);
+  const location = useLocation();
+  const path = location.pathname;
 
   const handleAddToCart = (product: CartItemModel) => {
     dispatch(addToCart(product));
   };
 
+  useEffect(() => {
+    // console.log("isInView", isInView);
+  }, [isInView]);
+
   return (
-    <Card sx={{ maxWidth: 345 }} className="product-card">
+    <Card
+      sx={{ maxWidth: 345 }}
+      className={
+        isInView && path === "/"
+          ? "product-card card-animation"
+          : "product-card"
+      }
+      ref={cardEl}
+    >
       <CardMedia
         onMouseOver={() => setIsHovered(true)}
         onMouseOut={() => setIsHovered(false)}
@@ -69,7 +87,7 @@ export const ProductCard: React.FC<ProductProps> = ({
           Out of Stock
         </Button>
       )}
-
+      {onSale && <DiscountTag discount={discount} />}
       <CardContent
         style={{ textAlign: "center" }}
         className="product-card-content"
