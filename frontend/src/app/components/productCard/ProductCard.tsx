@@ -10,6 +10,8 @@ import { addToCart } from "../../features/cart/cartSlice";
 import { useAppSelector, useAppDispatch } from "../../hooks";
 import { CartItemModel } from "../../features/cart/cartSlice";
 import "./styles/productCard.css";
+import { Box, IconButton } from "@mui/material";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 
 interface ProductProps extends Product {}
 
@@ -68,13 +70,57 @@ export const ProductCard: React.FC<ProductProps> = ({
         </Button>
       )}
 
-      <CardContent style={{ textAlign: "center" }}>
-        <Typography gutterBottom variant="h6">
-          {name}
-        </Typography>
-        <Typography variant="subtitle1" color="text.secondary">
-          €{price}
-        </Typography>
+      <CardContent
+        style={{ textAlign: "center" }}
+        className="product-card-content"
+      >
+        <Box className="product-card-product-name">
+          <Typography gutterBottom variant="h6">
+            {name}
+          </Typography>
+          <Box className="product-card-price-container">
+            <Typography
+              variant="subtitle1"
+              color="text.secondary"
+              sx={{
+                textAlign: "left",
+                textDecoration: onSale ? "line-through" : "none",
+                marginRight: ".7em",
+              }}
+            >
+              €{price.toFixed(2)}
+            </Typography>
+            {onSale && (
+              <Typography
+                variant="subtitle1"
+                color="text.secondary"
+                sx={{
+                  textAlign: "center",
+                }}
+              >
+                €{(price - price * (discount / 100)).toFixed(2)}
+              </Typography>
+            )}
+          </Box>
+        </Box>
+        <Box>
+          <IconButton
+            onClick={() =>
+              handleAddToCart({
+                name,
+                price,
+                qtyInStock,
+                onSale,
+                discount,
+                _id,
+                imgUrl,
+                qty: 1,
+              })
+            }
+          >
+            <AddShoppingCartIcon />
+          </IconButton>
+        </Box>
       </CardContent>
     </Card>
   );

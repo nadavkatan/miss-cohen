@@ -172,8 +172,8 @@ export default function Navbar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton size="large" color="inherit">
+      <MenuItem onClick={handleMenuClose}>
+        {/* <IconButton size="large" color="inherit">
           {cartItems.length ? (
             <Badge
               badgeContent={cartItems.reduce(
@@ -187,39 +187,17 @@ export default function Navbar() {
           ) : (
             <ShoppingBasketIcon />
           )}
-        </IconButton>
+        </IconButton> */}
+        <Cart />
+
         <p>Basket</p>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
-        {/* <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-        >
-          <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p> */}
         <IconButton size="large" color="inherit">
-          {/* <Badge badgeContent={17} color="error"> */}
           <PersonIcon />
-          {/* </Badge> */}
         </IconButton>
         <p>Profile</p>
       </MenuItem>
-      {/* <MenuItem >
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem> */}
     </Menu>
   );
 
@@ -230,7 +208,7 @@ export default function Navbar() {
           <img
             src={logo}
             alt="logo"
-            style={{ width: "4em", padding: "1em" }}
+            style={{ width: "4em", padding: "0.4em", cursor: "pointer" }}
             onClick={() => navigate("/")}
           />
           <Search>
@@ -260,7 +238,42 @@ export default function Navbar() {
             </IconButton>
             <Cart />
           </Box>
-          <Box sx={{ display: { xs: "flex", md: "none" } }}>
+          {cartItems.length ? (
+            <Box sx={{ display: { xs: "flex", md: "none" } }}>
+              <IconButton
+                size="large"
+                aria-label="show more"
+                aria-controls={mobileMenuId}
+                aria-haspopup="true"
+                onClick={handleMobileMenuOpen}
+                color="inherit"
+              >
+                <Badge
+                  badgeContent={cartItems.reduce(
+                    (total, items) => total + items.qty,
+                    0
+                  )}
+                  color="error"
+                >
+                  <MoreIcon />
+                </Badge>
+              </IconButton>
+            </Box>
+          ) : (
+            <Box sx={{ display: { xs: "flex", md: "none" } }}>
+              <IconButton
+                size="large"
+                aria-label="show more"
+                aria-controls={mobileMenuId}
+                aria-haspopup="true"
+                onClick={handleMobileMenuOpen}
+                color="inherit"
+              >
+                <MoreIcon />
+              </IconButton>
+            </Box>
+          )}
+          {/* <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
               aria-label="show more"
@@ -271,7 +284,7 @@ export default function Navbar() {
             >
               <MoreIcon />
             </IconButton>
-          </Box>
+          </Box> */}
         </Toolbar>
       </AppBar>
       {renderMobileMenu}

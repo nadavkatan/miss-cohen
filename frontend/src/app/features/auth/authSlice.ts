@@ -50,7 +50,6 @@ export const login = createAsyncThunk('authSlice/login',
             },
             withCredentials: true
         });
-        console.log(response)
         return response.data
     }
 )
@@ -62,21 +61,17 @@ export const logout = createAsyncThunk('authSlice/logout',
             url:`${BASE_URL}/auth/logout`,
             withCredentials:true
         });
-        console.log(response)
         return response.data
     }
 )
 
 export const registerUser = createAsyncThunk('authSlice/registerUser',
     async(formData:FormData) =>{
-        console.log(formData)
         const response = await axios({
             method: 'POST',
             url:`${BASE_URL}/auth/register`,
             data: formData
         });
-
-        console.log(response);
         return response.data;
     }
 );
@@ -88,8 +83,6 @@ export const checkAuth = createAsyncThunk('authSlice/checkAuth',
             url: `${BASE_URL}/auth/check-auth`,
             withCredentials: true
         });
-
-        console.log(response);
         return response.data;
     }
 )
@@ -103,7 +96,6 @@ export const updateUsersOrders = createAsyncThunk('authSlice/updateUsersOrders',
                 orderNumber: args.orderNumber
             }
         });
-        console.log(response);
         return response.data
     }
 )

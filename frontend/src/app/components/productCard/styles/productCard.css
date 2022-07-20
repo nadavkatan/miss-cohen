@@ -1,6 +1,7 @@
 .product-card {
   cursor: pointer;
   position: relative;
+  border: none;
 }
 
 .product-card .add-to-cart-btn {
@@ -17,4 +18,19 @@
   background-color: black;
   color: white;
   opacity: 0.9;
+}
+
+.product-card .product-card-content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.product-card .product-card-content .product-card-product-name .product-card-price-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }

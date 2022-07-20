@@ -153,7 +153,7 @@ export default function Cart() {
                 )}
                 color="error"
               >
-                <ShoppingBasketIcon />
+                <ShoppingBasketIcon color="primary" />
               </Badge>
             ) : (
               <ShoppingBasketIcon />

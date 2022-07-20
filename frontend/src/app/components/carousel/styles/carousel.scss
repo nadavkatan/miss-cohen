@@ -1,34 +1,44 @@
 .carousel {
-    .slide {
-        display: flex;
-        flex-flow: row nowrap !important;
-        height: 43em;
-        position: relative;
-
-        .slide-background {
-            position: absolute;
-            z-index: -1;
+    height: 100%;
+    .slider-wrapper{
+        height: 100%;
+        ul{
             height: 100%;
-            .carousel-img {
+            li{
                 height: 100%;
-
-                width: 50%;
-                opacity: 0.7;
-                filter: contrast(200%);
+                .slide {
+                    display: flex;
+                    flex-flow: row nowrap !important;
+                    height: 43em;
+                    position: relative;
+                    height: 100%;
+                    .slide-background {
+                        position: absolute;
+                        z-index: -1;
+                        height: 100%;
+                        .carousel-img {
+                            height: 100%;
+                            width: 50%;
+                            // opacity: 0.7;
+                            // filter: contrast(200%);
+                        }
+                        .sm-screen-carousel-img{
+                            // height: 100%;
+                            width: 100%;
+                        }
+                    }
+            
+                    // .slide-content {
+                    //     display: flex;
+                    //     flex-direction: column;
+                    //     align-items: center;
+                    //     width: 100%;
+                    //     justify-content: flex-end;
+                    //     margin-bottom: 3em;
+                    // }
+                }
             }
-        }
-
-        .slide-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            justify-content: flex-end;
-            margin-bottom: 3em;
-            .see-products-btn{
-                background-color: black;
             }
         }
     }
 
-}
