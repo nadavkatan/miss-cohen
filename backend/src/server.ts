@@ -35,7 +35,7 @@ const startServer = () =>{
         next();
     });
 
-    const sessionStore = MongoStore.create({
+    const sessionStore:unknown = MongoStore.create({
         client: mongoose.connection.getClient(),
         mongoUrl: process.env.MONGOOSE_URI,
         collectionName: "sessions"
