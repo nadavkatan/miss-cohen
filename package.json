@@ -2,6 +2,9 @@
   "name": "miss-cohen",
   "version": "1.0.0",
   "description": "e-commerce website",
+  "engines": {
+    "node": "16.13.0"
+  },
   "main": "backend/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
