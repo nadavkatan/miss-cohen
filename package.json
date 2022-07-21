@@ -8,9 +8,9 @@
   "main": "backend/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
     "start": "node backend/server.js",
-    "postinstall": "tsc",
-    "heroku-postbuild": "cd frontend && npm install && npm run build && cd .. && cd backend && npm install"
+    "heroku-postbuild": "tsc && cd frontend && npm install && npm run build && cd .. && cd backend && npm install"
   },
   "repository": {
     "type": "git",
