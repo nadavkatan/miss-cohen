@@ -107,6 +107,7 @@
       "target": "es2016",
       "module": "commonjs",
       "outDir": "./build",
+      "jsx": "react",
       "esModuleInterop": true,
       "forceConsistentCasingInFileNames": true,
       "strict": true,
