@@ -1,0 +1,21 @@
+{
+  "name": "miss-cohen",
+  "version": "1.0.0",
+  "description": "e-commerce website",
+  "main": "backend/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node backend/server.js",
+    "heroku-postbuild": "cd frontend && npm install && npm run build && cd .. && cd backend && npm install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nadavkatan/miss-cohen.git"
+  },
+  "author": "Nadav Katan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nadavkatan/miss-cohen/issues"
+  },
+  "homepage": "https://github.com/nadavkatan/miss-cohen#readme"
+}
