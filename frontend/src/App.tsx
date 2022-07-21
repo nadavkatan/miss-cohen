@@ -28,22 +28,22 @@ function App() {
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
-        <PayPalScriptProvider
+        {/* <PayPalScriptProvider
           options={{ "client-id": process.env.REACT_APP_PAYPAL_CLIENT_ID }}
-        >
-          <div className="App">
-            <Navbar />
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/products" element={<ProductsPage />} />
-              <Route path="/signin" element={<SignInPage />} />
-              <Route path="/checkout-signin" element={<SignInPage />} />
-              <Route path="/checkout" element={<CheckoutPage />} />
-              <Route path="/register" element={<RegisterPage />} />
-            </Routes>
-            <Footer />
-          </div>
-        </PayPalScriptProvider>
+        > */}
+        <div className="App">
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/products" element={<ProductsPage />} />
+            <Route path="/signin" element={<SignInPage />} />
+            <Route path="/checkout-signin" element={<SignInPage />} />
+            <Route path="/checkout" element={<CheckoutPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+          </Routes>
+          <Footer />
+        </div>
+        {/* </PayPalScriptProvider> */}
       </ThemeProvider>
     </Provider>
   );
