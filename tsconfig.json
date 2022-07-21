@@ -114,5 +114,5 @@
       "strict": true,
       "skipLibCheck": true
   },
-  "include": ["frontend/**/*","backend/**/*"]
+  "include": ["backend/**/*"]
 }
