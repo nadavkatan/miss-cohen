@@ -8,8 +8,8 @@ import confirmationRouter from './routes/confirmation.route';
 import authRouter from './routes/auth.route';
 import userRouter from './routes/user.route';
 import Product from './models/product.model';
-// const MongoStore = require('connect-mongo');
-import MongoStore from 'connect-mongo';
+const MongoStore = require('connect-mongo');
+// import MongoStore from 'connect-mongo';
 const cors = require('cors');
 import passport from 'passport';
 const session = require('express-session');
@@ -35,7 +35,7 @@ const startServer = () =>{
         next();
     });
 
-    const sessionStore:MongoStore = MongoStore.create({
+    const sessionStore = MongoStore.create({
         client: mongoose.connection.getClient(),
         mongoUrl: process.env.MONGOOSE_URI,
         collectionName: "sessions"
