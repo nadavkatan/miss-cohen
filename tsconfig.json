@@ -108,6 +108,7 @@
       "module": "commonjs",
       "outDir": "./build",
       "jsx": "react",
+      "moduleResolution": "node",
       "esModuleInterop": true,
       "forceConsistentCasingInFileNames": true,
       "strict": true,
