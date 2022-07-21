@@ -35,11 +35,11 @@ const startServer = () =>{
         next();
     });
 
-    // const sessionStore:unknown = MongoStore.create({
-    //     client: mongoose.connection.getClient(),
-    //     mongoUrl: process.env.MONGOOSE_URI,
-    //     collectionName: "sessions"
-    // })
+    const sessionStore:MongoStore = MongoStore.create({
+        client: mongoose.connection.getClient(),
+        mongoUrl: process.env.MONGOOSE_URI,
+        collectionName: "sessions"
+    })
 
     /** Middlewares */
     app.use(express.urlencoded({ extended:true}));
@@ -52,12 +52,12 @@ const startServer = () =>{
         secret: process.env.SESSION_SECRET,
         resave: false,
         saveUninitialized: false,
-        // store: sessionStore,
-        store: MongoStore.create({
-            client: mongoose.connection.getClient(),
-            mongoUrl: process.env.MONGOOSE_URI,
-            collectionName: "sessions"
-        }),
+        store: sessionStore,
+        // store: MongoStore.create({
+        //     client: mongoose.connection.getClient(),
+        //     mongoUrl: process.env.MONGOOSE_URI,
+        //     collectionName: "sessions"
+        // }),
         cookie:{
             maxAge: 1000 * 60 * 60,
         }
