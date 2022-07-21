@@ -9,7 +9,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node backend/server.js",
-    "postinstall": "tsc",
+    "tsc": "tsc",
+    "postinstall": "npm run tsc",
     "heroku-postbuild": "cd frontend && npm install && npm run build && cd .. && cd backend && npm install"
   },
   "repository": {
