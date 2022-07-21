@@ -5,7 +5,7 @@ import { FeaturedSection } from "../../sections/featuredSection/FeaturedSection"
 import { fetchProducts } from "../../features/products/productsSlice";
 import { useAppSelector, useAppDispatch } from "../../hooks";
 import { AboutSection } from "../../sections/aboutSection/AboutSection";
-import background from "../../assets/images/background-image.jpg";
+import background from "../../assets/images/background.png";
 import "./styles/homePage.css";
 
 interface HomePageProps {}
@@ -27,7 +27,7 @@ export const HomePage: React.FC<HomePageProps> = ({}) => {
   return (
     <Box>
       <HomeSection />
-      <Box className="sections">
+      <Box className="sections" sx={{ backgroundImage: `url(${background})` }}>
         <FeaturedSection />
         <AboutSection />
       </Box>

@@ -11,6 +11,7 @@ import RegisterPage from "./app/pages/registerPage/RegisterPage";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { blue } from "@mui/material/colors";
+import { Footer } from "./app/components/footer/Footer";
 
 const theme = createTheme({
   palette: {
@@ -40,6 +41,7 @@ function App() {
               <Route path="/checkout" element={<CheckoutPage />} />
               <Route path="/register" element={<RegisterPage />} />
             </Routes>
+            <Footer />
           </div>
         </PayPalScriptProvider>
       </ThemeProvider>

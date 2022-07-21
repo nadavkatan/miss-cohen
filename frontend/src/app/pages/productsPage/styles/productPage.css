@@ -6,9 +6,10 @@
       -ms-flex-pack: center;
           justify-content: center;
   margin-top: 10.5vh;
+  background-color: #F9F2ED;
 }
 
 .product-page-wrapper .product-page-container {
   width: 85%;
-  margin-top: 1em;
+  margin: 1em 0;
 }

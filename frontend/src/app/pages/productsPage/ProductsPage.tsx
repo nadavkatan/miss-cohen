@@ -3,6 +3,7 @@ import { useAppSelector, useAppDispatch } from "../../hooks";
 import { fetchProducts } from "../../features/products/productsSlice";
 import { Box, Grid } from "@mui/material";
 import { ProductCard } from "../../components/productCard/ProductCard";
+import background from "../../assets/images/background.png";
 import "./styles/productPage.css";
 
 interface ProductsPageProps {}
@@ -23,7 +24,10 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({}) => {
   }, [products]);
 
   return (
-    <Box className="product-page-wrapper">
+    <Box
+      className="product-page-wrapper"
+      sx={{ backgroundImage: `url(${background})` }}
+    >
       <Grid container spacing={3} className="product-page-container">
         {products.length &&
           products.map((product, i) => {

@@ -3,15 +3,20 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import logo from "../../assets/images/miss-cohen-logo.png";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
 import "./styles/aboutSection.css";
 
 interface AboutSectionProps {}
 
 export const AboutSection: React.FC<AboutSectionProps> = ({}) => {
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
+
   return (
     <Box className="about-section-wrapper">
       <Grid container className="about-section-content">
-        <Grid item xs={6}>
+        <Grid item xs={10} md={6}>
           <Typography className="about-section-title" variant="h3">
             Our Story
           </Typography>
@@ -34,9 +39,19 @@ export const AboutSection: React.FC<AboutSectionProps> = ({}) => {
             magnam aliquam quaerat voluptatem.
           </Typography>
         </Grid>
-        <Grid item xs={6} className="about-section-logo-container">
-          <img src={logo} alt="logo" className="about-section-logo" />
+        {/* {isLargeScreen && ( */}
+        <Grid item xs={12} md={6} className="about-section-logo-container">
+          <img
+            src={logo}
+            alt="logo"
+            className={
+              isSmallScreen
+                ? "sm-screen-about-section-logo"
+                : "about-section-logo"
+            }
+          />
         </Grid>
+        {/* )} */}
       </Grid>
     </Box>
   );

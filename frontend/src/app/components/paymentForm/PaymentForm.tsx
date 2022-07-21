@@ -3,7 +3,10 @@ import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import { Review } from "../review/Review";
-import { Fab, IconButton, Typography } from "@mui/material";
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+import Fab from "@mui/material/Fab";
+import Box from "@mui/material/Box";
 import { PaypalCheckoutButton } from "../paypalChackoutButton/PaypalCheckoutButton";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useAppSelector } from "../../hooks";
@@ -40,7 +43,11 @@ export const PaymentForm: React.FC<PaymentFormProps> = ({
               </Typography>
             </Grid>
           </Grid>
+          {/* <Box
+            style={{ width: "100%", display: "flex", justifyContent: "center" }}
+          > */}
           <PaypalCheckoutButton nextStep={nextStep} />
+          {/* </Box> */}
           <Fab size="small" onClick={backStep} sx={{ marginTop: "1em" }}>
             <IconButton>
               <ArrowBackIcon />

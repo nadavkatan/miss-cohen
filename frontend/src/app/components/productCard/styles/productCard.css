@@ -27,6 +27,7 @@
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+  text-align: left !important;
 }
 
 .product-card .product-card-content .product-card-product-name .product-card-price-container {

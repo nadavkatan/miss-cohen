@@ -19,6 +19,8 @@ import { useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../hooks";
 import Cart from "../cart/Cart";
 import { checkAuth, logout } from "../../features/auth/authSlice";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -91,7 +93,8 @@ export default function Navbar() {
 
   const goToMyOrders = () => {
     handleMenuClose();
-    navigate(`orders/${currentUser?._id}`);
+    toast("Coming up...");
+    // navigate(`orders/${currentUser?._id}`);
   };
 
   const handleLogout = () => {
@@ -213,6 +216,7 @@ export default function Navbar() {
         zIndex: 20,
       }}
     >
+      <ToastContainer />
       <AppBar position="static" color="transparent">
         <Toolbar>
           <img

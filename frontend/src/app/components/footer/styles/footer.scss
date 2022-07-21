@@ -1,0 +1,17 @@
+.footer-wrapper{
+    height: 13vh;
+    background-color:#FCF8E8;
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
+    align-items:center;
+    box-shadow: 0 0 5px gray;
+    .icons-container{
+        width: 20%;
+        display: flex;
+        justify-content: space-around;
+        .footer-icon{
+            width: 10em;
+        }
+    }
+}

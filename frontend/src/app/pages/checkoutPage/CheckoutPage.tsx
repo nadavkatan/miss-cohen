@@ -7,28 +7,19 @@ import StepLabel from "@mui/material/StepLabel";
 import { AddressForm } from "../../components/addressForm/AddressForm";
 import { PaymentForm } from "../../components/paymentForm/PaymentForm";
 import { Confirmation } from "../../components/confirmation/Confirmation";
-import { ShippingData, setShippingData } from "../../features/order/orderSlice";
 import { useAppSelector } from "../../hooks";
+import background from "../../assets/images/background.png";
 import "./styles/checkoutPage.css";
+import { useMediaQuery } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 
 interface CheckoutPageProps {}
-
-// export type ShippingOption = "Delivery" | "Pickup" | string;
-
-// export interface ShippingData {
-//   firstName: string;
-//   lastName: string;
-//   address: string;
-//   email: string;
-//   city: string;
-//   zipCode: string;
-//   phoneNumber: string;
-//   shippingOption: ShippingOption;
-// }
 
 export const CheckoutPage: React.FC<CheckoutPageProps> = ({}) => {
   const { shippingData } = useAppSelector((state) => state.order);
   const [activeStep, setActiveStep] = useState(0);
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const steps: string[] = [
     "Shipping Address",
@@ -48,12 +39,19 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({}) => {
   }, [shippingData]);
 
   return (
-    <main className="checkout-wrapper">
+    <main
+      className="checkout-wrapper"
+      style={{ backgroundImage: `url(${background})` }}
+    >
       <Paper elevation={3} className="checkout-container">
         <Typography variant="h4" align="center">
           Checkout
         </Typography>
-        <Stepper activeStep={activeStep} className="checkout-stepper">
+        <Stepper
+          activeStep={activeStep}
+          className="checkout-stepper"
+          orientation={isSmallScreen ? "vertical" : "horizontal"}
+        >
           {steps.map((step) => (
             <Step key={step}>
               <StepLabel>{step}</StepLabel>

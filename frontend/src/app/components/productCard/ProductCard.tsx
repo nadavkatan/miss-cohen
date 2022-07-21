@@ -101,7 +101,6 @@ export const ProductCard: React.FC<ProductProps> = ({
               variant="subtitle1"
               color="text.secondary"
               sx={{
-                textAlign: "left",
                 textDecoration: onSale ? "line-through" : "none",
                 marginRight: ".7em",
               }}

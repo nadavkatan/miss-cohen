@@ -6,12 +6,13 @@
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  margin-top: 2em;
+  margin-top: 10vh;
 }
 
 .checkout-wrapper .checkout-container {
   width: 60%;
   padding: 2em;
+  margin: 2em;
 }
 
 .checkout-wrapper .checkout-container .checkout-stepper {
