@@ -5,10 +5,10 @@
   "engines": {
     "node": "16.13.0"
   },
-  "main": "backend/src/server.js",
+  "main": "build/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node backend/src/server.js",
+    "start": "node build/server.js",
     "tsc": "tsc",
     "postinstall": "npm run tsc",
     "heroku-postbuild": "cd frontend && npm install && npm run build && cd .. && cd backend && npm install"
