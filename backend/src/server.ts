@@ -107,5 +107,6 @@ const startServer = () =>{
                res.status(404).json({message:error.message})
            });
 
+    // http.createServer(app).listen(config.server.port, ()=> console.log(`Server is running on port ${config.server.port}`));
     http.createServer(app).listen(config.server.port, ()=> console.log(`Server is running on port ${config.server.port}`));
 }
