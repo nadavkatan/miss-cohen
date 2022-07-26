@@ -34,7 +34,7 @@ export const Confirmation: React.FC<ConfirmationProps> = ({}) => {
         />
       </Box>
       <Button variant="contained" onClick={() => navigate("/products")}>
-        Continue shipping
+        Continue shopping
       </Button>
     </Box>
   );

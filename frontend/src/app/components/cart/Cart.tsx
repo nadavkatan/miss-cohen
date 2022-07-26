@@ -127,6 +127,8 @@ export default function Cart() {
         <List>
           <ListItem>
             <Typography variant="body1">Your cart is empty</Typography>
+          </ListItem>
+          <ListItem>
             <Typography variant="body1" onClick={toggleDrawer("right", false)}>
               Start shopping!
             </Typography>

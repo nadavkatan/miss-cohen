@@ -23,6 +23,9 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
+import { Product } from "../../features/products/productsSlice";
+import { Button } from "@mui/material";
+import { addToCart } from "../../features/cart/cartSlice";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -64,15 +67,24 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+interface AutoCompleteOption extends Product {
+  label: string;
+}
+
 export default function Navbar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
+  const [autoCompleteOptions, setAutoCompleteOptions] = React.useState<
+    AutoCompleteOption[]
+  >([]);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const { cartItems } = useAppSelector((state) => state.cart);
   const { currentUser, isAuth } = useAppSelector((state) => state.auth);
+  const { products } = useAppSelector((state) => state.products);
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -102,6 +114,7 @@ export default function Navbar() {
   const handleLogout = () => {
     handleMenuClose();
     dispatch(logout());
+    toast("You are logged out");
   };
   const handleLogin = () => {
     handleMenuClose();
@@ -113,8 +126,16 @@ export default function Navbar() {
   }, []);
 
   React.useEffect(() => {
-    console.log(currentUser);
-  }, [currentUser]);
+    if (products && !autoCompleteOptions.length) {
+      const options = products.map((product) => {
+        return {
+          label: product.name,
+          ...product,
+        };
+      });
+      setAutoCompleteOptions(options);
+    }
+  }, [products]);
 
   React.useEffect(() => {
     console.log("isAuth: " + isAuth);
@@ -228,20 +249,52 @@ export default function Navbar() {
             onClick={() => navigate("/")}
           />
           <Search>
-            <SearchIconWrapper>
+            {/* <SearchIconWrapper>
               <SearchIcon />
-            </SearchIconWrapper>
+            </SearchIconWrapper> */}
             {/* <StyledInputBase
               placeholder="Search…"
               inputProps={{ "aria-label": "search" }}
             /> */}
-            {/* <Autocomplete
+            <Autocomplete
               disablePortal
               id="combo-box-demo"
-              // options={top100Films}
+              options={autoCompleteOptions}
               sx={{ width: 300 }}
-              renderInput={(params) => <TextField {...params} label="Movie" />}
-            /> */}
+              renderOption={(props, option) => (
+                <Box
+                  component="li"
+                  sx={{
+                    "& > img": {
+                      mr: 2,
+                      flexShrink: 0,
+                    },
+                  }}
+                  {...props}
+                >
+                  <Typography
+                    style={{ marginRight: "auto" }}
+                    variant="subtitle2"
+                    onClick={() => dispatch(addToCart({ qty: 1, ...option }))}
+                  >
+                    {option.label}
+                  </Typography>
+                  <Typography
+                    variant="subtitle2"
+                    onClick={() => dispatch(addToCart({ qty: 1, ...option }))}
+                  >
+                    €
+                    {option.onSale
+                      ? option.price - option.price * (option.discount / 100)
+                      : option.price}
+                  </Typography>
+                </Box>
+              )}
+              renderInput={(params) => (
+                // <TextField {...params} label="Search product" />
+                <TextField {...params} placeholder="Search product…" />
+              )}
+            />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box

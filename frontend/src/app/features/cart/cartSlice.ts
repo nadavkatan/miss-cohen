@@ -42,7 +42,7 @@ const initialState = {
               }else{
                 state.cartItems.push(action.payload);
               }
-              state.subtotal += action.payload.price;
+              action.payload.onSale ? state.subtotal += action.payload.price - (action.payload.price * (action.payload.discount / 100)) : state.subtotal += action.payload.price 
               state.vat = Number((state.subtotal * 0.21).toFixed(2));
               state.totalPrice = Number((state.subtotal + state.vat).toFixed(2));
         },
@@ -59,7 +59,7 @@ const initialState = {
                     }
                 })
             }
-            state.subtotal -= action.payload.price;
+            action.payload.onSale ? state.subtotal -= action.payload.price - (action.payload.price * (action.payload.discount / 100)) : state.subtotal += action.payload.price 
             state.vat = Number((state.subtotal * 0.21).toFixed(2));
             state.totalPrice = Number((state.subtotal + state.vat).toFixed(2));
         },

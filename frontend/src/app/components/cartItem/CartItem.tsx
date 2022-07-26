@@ -74,7 +74,9 @@ export const CartItem: React.FC<CartItemProps> = ({
         </div>
       </Grid>
       <Grid item xs={3} className="cart-item-right">
-        <Typography variant="subtitle2">€{price}</Typography>
+        <Typography variant="subtitle2">
+          €{onSale ? price - price * (discount / 100) : price}
+        </Typography>
       </Grid>
     </Grid>
   );

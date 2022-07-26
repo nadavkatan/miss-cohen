@@ -35,7 +35,10 @@ export const Review: React.FC<ReviewProps> = ({}) => {
           </Typography>
         </ListItem>
         <ListItem style={{ padding: "10px 0" }}>
-          <ListItemText primary="Shipping" secondary={"Nadav-insert-method"} />
+          <ListItemText
+            primary="Shipping"
+            secondary={shippingData.shippingOption}
+          />
           <Typography variant="subtitle1" style={{ fontWeight: 700 }}>
             {shippingData.shippingOption === "Delivery" ? "€4.00" : "€0.00"}
           </Typography>
