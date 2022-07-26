@@ -21,6 +21,8 @@ import Cart from "../cart/Cart";
 import { checkAuth, logout } from "../../features/auth/authSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -229,10 +231,17 @@ export default function Navbar() {
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
-            <StyledInputBase
+            {/* <StyledInputBase
               placeholder="Search…"
               inputProps={{ "aria-label": "search" }}
-            />
+            /> */}
+            {/* <Autocomplete
+              disablePortal
+              id="combo-box-demo"
+              // options={top100Films}
+              sx={{ width: 300 }}
+              renderInput={(params) => <TextField {...params} label="Movie" />}
+            /> */}
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box
