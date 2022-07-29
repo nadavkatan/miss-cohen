@@ -7,7 +7,7 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
-import { useForm, FormProvider, Resolver } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 import Typography from "@mui/material/Typography";
 import { ShippingData, setShippingData } from "../../features/order/orderSlice";
 import { useAppDispatch, useAppSelector } from "../../hooks";
@@ -30,7 +30,6 @@ export const AddressForm: React.FC<AddressFormProps> = ({
     handleSubmit,
     register,
     watch,
-    getValues,
     formState: { errors },
   } = useForm<ShippingData>({
     defaultValues: {
@@ -39,12 +38,9 @@ export const AddressForm: React.FC<AddressFormProps> = ({
     },
   });
 
-  // const values = getValues();
-
   useEffect(() => {
     const subscription = watch((data) => {
       data.shippingOption === "Delivery" ? setDisable(false) : setDisable(true);
-      // console.log(values);
     });
     return () => subscription.unsubscribe();
   }, [watch]);

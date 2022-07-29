@@ -2,7 +2,6 @@ import React from "react";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import { useAppSelector } from "../../hooks";
 import missCohenLogo from "../../assets/images/miss-cohen-logo.png";
 import { useNavigate } from "react-router-dom";
 import "./styles/confirmation.css";
@@ -10,7 +9,6 @@ import "./styles/confirmation.css";
 interface ConfirmationProps {}
 
 export const Confirmation: React.FC<ConfirmationProps> = ({}) => {
-  const { orderNumber } = useAppSelector((state) => state.order);
   const navigate = useNavigate();
 
   return (

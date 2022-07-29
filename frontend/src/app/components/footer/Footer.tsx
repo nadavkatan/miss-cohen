@@ -8,12 +8,6 @@ import Typography from "@mui/material/Typography";
 import "./styles/footer.css";
 
 interface FooterProps {}
-const styles = {
-  largeIcon: {
-    width: 60,
-    height: 60,
-  },
-};
 
 export const Footer: React.FC<FooterProps> = ({}) => {
   return (

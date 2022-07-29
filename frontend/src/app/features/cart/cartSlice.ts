@@ -1,10 +1,6 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { Product } from "../products/productsSlice";
-import { current } from '@reduxjs/toolkit'
-import axios from "axios";
-const BASE_URL = process.env.REACT_APP_BASE_URL;
-
 
 export interface CartItemModel extends Product {
     qty:number
@@ -42,7 +38,8 @@ const initialState = {
               }else{
                 state.cartItems.push(action.payload);
               }
-              action.payload.onSale ? state.subtotal += action.payload.price - (action.payload.price * (action.payload.discount / 100)) : state.subtotal += action.payload.price 
+              const calculatedPrice = action.payload.onSale ? action.payload.price - (action.payload.price * (action.payload.discount / 100)) : action.payload.price 
+              state.subtotal += Number(calculatedPrice.toFixed(2));
               state.vat = Number((state.subtotal * 0.21).toFixed(2));
               state.totalPrice = Number((state.subtotal + state.vat).toFixed(2));
         },
@@ -59,7 +56,8 @@ const initialState = {
                     }
                 })
             }
-            action.payload.onSale ? state.subtotal -= action.payload.price - (action.payload.price * (action.payload.discount / 100)) : state.subtotal += action.payload.price 
+            const calculatedPrice= action.payload.onSale ? action.payload.price - (action.payload.price * (action.payload.discount / 100)) : action.payload.price;
+            state.subtotal -= Number(calculatedPrice.toFixed(2))
             state.vat = Number((state.subtotal * 0.21).toFixed(2));
             state.totalPrice = Number((state.subtotal + state.vat).toFixed(2));
         },

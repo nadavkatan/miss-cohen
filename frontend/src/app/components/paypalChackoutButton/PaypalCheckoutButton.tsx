@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { PayPalButtons } from "@paypal/react-paypal-js";
 import { useAppSelector, useAppDispatch } from "../../hooks";
 import {
@@ -23,7 +23,6 @@ export const PaypalCheckoutButton: React.FC<PaypalCheckoutButtonProps> = ({
   const dispatch = useAppDispatch();
 
   const storeOrder = () => {
-    // const cartItemsIds = cartItems.map((cartItem) => cartItem._id);
     const order: Order = {
       customer_name: `${shippingData.firstName} ${shippingData.lastName}`,
       customer_address: shippingData.address,
@@ -83,7 +82,6 @@ export const PaypalCheckoutButton: React.FC<PaypalCheckoutButtonProps> = ({
         return actions.order.create({
           purchase_units: [
             {
-              //   description: product.description,
               description: "Your order at Miss. Cohen",
               amount: {
                 value:

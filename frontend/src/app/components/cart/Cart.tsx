@@ -14,10 +14,10 @@ import { CartItem } from "../cartItem/CartItem";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import { useNavigate } from "react-router-dom";
-import "./styles/cart.css";
 import IconButton from "@mui/material/IconButton";
 import Badge from "@mui/material/Badge";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
+import "./styles/cart.css";
 
 export type Anchor = "right";
 
@@ -46,16 +46,11 @@ export default function Cart() {
 
   const handleCheckout = () => {
     setState({ right: false });
-    // toggleDrawer("right", false);
     navigate("/checkout-signin");
   };
 
   const list = (anchor: Anchor) => (
-    <Box
-      role="presentation"
-      // onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
-    >
+    <Box role="presentation" onKeyDown={toggleDrawer(anchor, false)}>
       {cartItems.length ? (
         <List>
           <ListItem>

@@ -7,9 +7,7 @@ import ganouch from "../../assets/images/ganouch.jpeg";
 import challah from "../../assets/images/challah.png";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-
 import "./styles/carousel.css";
-// import { createTheme, ThemeProvider } from "@mui/material";
 
 interface CarouselProps {}
 
@@ -18,7 +16,6 @@ export const HomeCarousel: React.FC<CarouselProps> = ({}) => {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
-    // <ThemeProvider theme={theme}>
     <Carousel
       className="carousel"
       autoPlay
@@ -68,6 +65,5 @@ export const HomeCarousel: React.FC<CarouselProps> = ({}) => {
         </div>
       )}
     </Carousel>
-    // </ThemeProvider>
   );
 };

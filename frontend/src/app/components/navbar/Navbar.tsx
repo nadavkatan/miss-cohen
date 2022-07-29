@@ -5,15 +5,11 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import InputBase from "@mui/material/InputBase";
 import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
-import SearchIcon from "@mui/icons-material/Search";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import logo from "../../assets/images/miss-cohen-logo.png";
-import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import PersonIcon from "@mui/icons-material/Person";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../hooks";
@@ -24,8 +20,9 @@ import "react-toastify/dist/ReactToastify.css";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { Product } from "../../features/products/productsSlice";
-import { Button } from "@mui/material";
+import { useMediaQuery } from "@mui/material";
 import { addToCart } from "../../features/cart/cartSlice";
+import { useTheme } from "@mui/material/styles";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -40,30 +37,6 @@ const Search = styled("div")(({ theme }) => ({
   [theme.breakpoints.up("sm")]: {
     marginLeft: theme.spacing(3),
     width: "auto",
-  },
-}));
-
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "20ch",
-    },
   },
 }));
 
@@ -84,6 +57,9 @@ export default function Navbar() {
   const { cartItems } = useAppSelector((state) => state.cart);
   const { currentUser, isAuth } = useAppSelector((state) => state.auth);
   const { products } = useAppSelector((state) => state.products);
+
+  const theme = useTheme();
+  const isLargeScreen = useMediaQuery(theme.breakpoints.up("md"));
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -199,23 +175,7 @@ export default function Navbar() {
       onClose={handleMobileMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>
-        {/* <IconButton size="large" color="inherit">
-          {cartItems.length ? (
-            <Badge
-              badgeContent={cartItems.reduce(
-                (total, items) => total + items.qty,
-                0
-              )}
-              color="error"
-            >
-              <ShoppingBasketIcon color="primary" />
-            </Badge>
-          ) : (
-            <ShoppingBasketIcon />
-          )}
-        </IconButton> */}
         <Cart />
-
         <p>Basket</p>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
@@ -248,54 +208,49 @@ export default function Navbar() {
             style={{ width: "4em", padding: "0.4em", cursor: "pointer" }}
             onClick={() => navigate("/")}
           />
-          <Search>
-            {/* <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper> */}
-            {/* <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-            /> */}
-            <Autocomplete
-              disablePortal
-              id="combo-box-demo"
-              options={autoCompleteOptions}
-              sx={{ width: 300 }}
-              renderOption={(props, option) => (
-                <Box
-                  component="li"
-                  sx={{
-                    "& > img": {
-                      mr: 2,
-                      flexShrink: 0,
-                    },
-                  }}
-                  {...props}
-                >
-                  <Typography
-                    style={{ marginRight: "auto" }}
-                    variant="subtitle2"
-                    onClick={() => dispatch(addToCart({ qty: 1, ...option }))}
+          {isLargeScreen && (
+            <Search>
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                options={autoCompleteOptions}
+                sx={{ width: 300 }}
+                renderOption={(props, option) => (
+                  <Box
+                    component="li"
+                    sx={{
+                      "& > img": {
+                        mr: 2,
+                        flexShrink: 0,
+                      },
+                    }}
+                    {...props}
                   >
-                    {option.label}
-                  </Typography>
-                  <Typography
-                    variant="subtitle2"
-                    onClick={() => dispatch(addToCart({ qty: 1, ...option }))}
-                  >
-                    €
-                    {option.onSale
-                      ? option.price - option.price * (option.discount / 100)
-                      : option.price}
-                  </Typography>
-                </Box>
-              )}
-              renderInput={(params) => (
-                // <TextField {...params} label="Search product" />
-                <TextField {...params} placeholder="Search product…" />
-              )}
-            />
-          </Search>
+                    <Typography
+                      style={{ marginRight: "auto" }}
+                      variant="subtitle2"
+                      onClick={() => dispatch(addToCart({ qty: 1, ...option }))}
+                    >
+                      {option.label}
+                    </Typography>
+                    <Typography
+                      variant="subtitle2"
+                      onClick={() => dispatch(addToCart({ qty: 1, ...option }))}
+                    >
+                      €
+                      {option.onSale
+                        ? option.price - option.price * (option.discount / 100)
+                        : option.price}
+                    </Typography>
+                  </Box>
+                )}
+                renderInput={(params) => (
+                  <TextField {...params} placeholder="Search product…" />
+                )}
+              />
+            </Search>
+          )}
+
           <Box sx={{ flexGrow: 1 }} />
           <Box
             sx={{ display: { xs: "none", md: "flex", alignItems: "center" } }}
@@ -349,18 +304,6 @@ export default function Navbar() {
               </IconButton>
             </Box>
           )}
-          {/* <Box sx={{ display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-          </Box> */}
         </Toolbar>
       </AppBar>
       {renderMobileMenu}

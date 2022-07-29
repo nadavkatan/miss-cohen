@@ -1,13 +1,12 @@
-import { IconButton } from "@mui/material";
+import React from "react";
+import IconButton from "@mui/material/IconButton";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import React from "react";
 import { CartItemModel } from "../../features/cart/cartSlice";
 import { addToCart, removeFromCart } from "../../features/cart/cartSlice";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { useAppDispatch } from "../../hooks";
-import { Anchor } from "../cart/Cart";
 import "./styles/cartItem.css";
 
 interface CartItemProps extends CartItemModel {}

@@ -10,7 +10,6 @@ interface ProductsPageProps {}
 
 export const ProductsPage: React.FC<ProductsPageProps> = ({}) => {
   const { products } = useAppSelector((state) => state.products);
-  const { cartItems } = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
 
   useEffect(() => {

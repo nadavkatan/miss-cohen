@@ -39,7 +39,6 @@ export const AboutSection: React.FC<AboutSectionProps> = ({}) => {
             magnam aliquam quaerat voluptatem.
           </Typography>
         </Grid>
-        {/* {isLargeScreen && ( */}
         <Grid item xs={12} md={6} className="about-section-logo-container">
           <img
             src={logo}
