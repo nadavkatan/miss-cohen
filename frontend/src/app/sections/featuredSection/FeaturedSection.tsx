@@ -19,7 +19,6 @@ export const FeaturedSection: React.FC<sectioFeaturedSectionPropsn> = ({}) => {
         {products.length > 0 &&
           products.map((product) => {
             if (product.onSale) {
-              console.log(product);
               return (
                 <Grid item key={product._id} lg={3} md={4} sm={6} xs={12}>
                   <ProductCard

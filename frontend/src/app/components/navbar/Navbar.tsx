@@ -113,10 +113,6 @@ export default function Navbar() {
     }
   }, [products]);
 
-  React.useEffect(() => {
-    console.log("isAuth: " + isAuth);
-  }, [isAuth]);
-
   const menuId = "primary-search-account-menu";
   const renderMenu = isAuth ? (
     <Menu

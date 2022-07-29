@@ -18,10 +18,6 @@ export const ProductsPage: React.FC<ProductsPageProps> = ({}) => {
     }
   }, []);
 
-  useEffect(() => {
-    console.log(products);
-  }, [products]);
-
   return (
     <Box
       className="product-page-wrapper"

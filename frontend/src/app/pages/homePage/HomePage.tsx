@@ -20,10 +20,6 @@ export const HomePage: React.FC<HomePageProps> = ({}) => {
     }
   }, []);
 
-  useEffect(() => {
-    console.log(products);
-  }, [products]);
-
   return (
     <Box>
       <HomeSection />

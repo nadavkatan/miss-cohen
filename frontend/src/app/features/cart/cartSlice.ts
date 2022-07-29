@@ -39,7 +39,7 @@ const initialState = {
                 state.cartItems.push(action.payload);
               }
               const calculatedPrice = action.payload.onSale ? action.payload.price - (action.payload.price * (action.payload.discount / 100)) : action.payload.price 
-              state.subtotal += Number(calculatedPrice.toFixed(2));
+              state.subtotal = Number((state.subtotal + calculatedPrice).toFixed(2))
               state.vat = Number((state.subtotal * 0.21).toFixed(2));
               state.totalPrice = Number((state.subtotal + state.vat).toFixed(2));
         },
@@ -57,7 +57,7 @@ const initialState = {
                 })
             }
             const calculatedPrice= action.payload.onSale ? action.payload.price - (action.payload.price * (action.payload.discount / 100)) : action.payload.price;
-            state.subtotal -= Number(calculatedPrice.toFixed(2))
+            state.subtotal = Number((state.subtotal - calculatedPrice).toFixed(2))
             state.vat = Number((state.subtotal * 0.21).toFixed(2));
             state.totalPrice = Number((state.subtotal + state.vat).toFixed(2));
         },
